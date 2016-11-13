@@ -142,6 +142,8 @@ for jvar in range (0, 10) :
 
 	stockPredix = MySQLdb.connect("127.0.0.1", "admin", "ScrabbleSquad9", "StockPredix")
 	cursor = stockPredix.cursor()
+	cursor.execute("delete from endofday")
+	cursor.execute("delete from summaryinfo")
 
 	for i in data:
 		closing_prices.append({'Symbol':i['Symbol'],'Dates':[],'Prices':[], 'PercentChange':[]})
