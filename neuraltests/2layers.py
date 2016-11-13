@@ -1,11 +1,12 @@
 
 from numpy import exp, array, random, dot
+import numpy
+import MySQLdb
 
 
 class NeuronLayer():
     def __init__(self, number_of_neurons, number_of_inputs_per_neuron):
         self.synaptic_weights = 2 * random.random((number_of_inputs_per_neuron, number_of_neurons)) - 1
-
 
 class NeuralNetwork():
     def __init__(self, layer1, layer2):
@@ -62,16 +63,33 @@ class NeuralNetwork():
         print "    Layer 2 (1 neuron, with 4 inputs):"
         print self.layer2.synaptic_weights
 
+
+def getDataSet(conn, cursor):
+    training_set_inputs = []
+    training_set_outputs = []
+    for i in range (60):
+        cursor.execute("select open, close, high, low, volume, percent_change from endofday, summaryinfo where endofday.date < DATE_SUB(now(), interval %d day) AND endofday.date = summaryinfo.date order by date desc limit 4" % i)
+        rows = numpy.fromiter(cursor.fetchall())
+        training_set_inputs.append(rows[0:2])
+        training_set_outputs.append(rows[3]['percent_change'])
+    return training_set_inputs, training_set_outputs.T
+
+
+connection = MySQLdb.connect('127.0.0.1', 'admin', 'ScrabbleSquad9', 'StockPredix')
+cursor = self.connection.cursor()
+
+cursor.execute("select open, close, high, low, volume from ")
+
 if __name__ == "__main__":
 
     #Seed the random number generator
     random.seed(1)
 
-    # Create layer 1 (4 neurons, each with 3 inputs)
-    layer1 = NeuronLayer(4, 3)
+    # Create layer 1 (30 neurons, each with 18 inputs)
+    layer1 = NeuronLayer(30, 18)
 
-    # Create layer 2 (a single neuron with 4 inputs)
-    layer2 = NeuronLayer(1, 4)
+    # Create layer 2 (5 neurons with 30 inputs)
+    layer2 = NeuronLayer(1, 30)
 
     # Combine the layers to create a neural network
     neural_network = NeuralNetwork(layer1, layer2)
@@ -81,8 +99,9 @@ if __name__ == "__main__":
 
     # The training set. We have 7 examples, each consisting of 3 input values
     # and 1 output value.
-    training_set_inputs = array([[0, 0, 1], [0, 1, 1], [1, 0, 1], [0, 1, 0], [1, 0, 0], [1, 1, 1], [0, 0, 0]])
-    training_set_outputs = array([[0, 1, 1, 1, 1, 0, 0]]).T
+    training_set_inputs, training_set_outputs = getDataSet(connection, cursor)
+    print training_set_inputs
+    print training_set_outputs
 
     # Train the neural network using the training set.
     # Do it 60,000 times and make small adjustments each time.

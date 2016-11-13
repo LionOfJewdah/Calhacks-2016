@@ -5,10 +5,11 @@ import urllib2
 import xml.etree.cElementTree as ElementTree
 import re
 from pprint import pprint
-import matplotlib.dates as mdates
-import matplotlib.pyplot as plt
+#import matplotlib.dates as mdates
+#import matplotlib.pyplot as plt
 import datetime as dt
 import sys
+import json
 
 # Simple test of the Data On Demand HTTP API
 # Comment out the plt and matplotlib lines if you dont have it installed...
@@ -34,6 +35,7 @@ class Xml2List(list):
                     self.append(text)
 
 # Returns a dictionary
+
 class Xml2Dict(dict):
     '''
     Example usage:
@@ -74,13 +76,12 @@ class Xml2Dict(dict):
             else:
                 self.update({element.tag: element.text})
 
-
 ## API Test ##
 
 url = 'http://ws.nasdaqdod.com/v1/NASDAQAnalytics.asmx/GetEndOfDayData'
 # Change symbols and date range (not more that 30 days at a time)
 values = {'_Token' : '25D26255F6924F31BD86503A4253BEA0',
-		  'Symbols' : 'GOOG',
+		  'Symbols' : 'TWLO',
           'StartDate' : '%s 00:00:00.000' % sys.argv[1],
           'EndDate' : '%s 23:59:59.999' % sys.argv[2],
           'MarketCenters' : '' }
@@ -119,8 +120,9 @@ if data[0]["Outcome"] == 'RequestError' and "Prices" not in data[0]:
 	print(the_page)
 
 
-for i in data:
-    print "Pretty printing: "
+for i in data:#data is list of dictionaries, one for each day in range
+#closing_prices is a 
+    print ("Pretty printing: ", len(i))
     pprint(i)
     closing_prices.append({'Symbol':i['Symbol'],'Dates':[],'Prices':[], 'PercentChange':[]})
 
@@ -137,14 +139,18 @@ for i in data:
 
 		except(Exception) as e:
 			print("Skipping non-trading date.")
+		
+		#print price
 
 # Examine new dictionary
 pprint(closing_prices)
+print len(closing_prices[0])
+
 
 #Plot results
-
+"""
 ## Need to convert the a numeric date format for plotting
-title_strings = []
+title_strings = [] 
 for i in closing_prices:
 	plt.plot([dt.datetime.strptime(d,'%m/%d/%Y').date() for d in i['Dates']], i["PercentChange"], label = i["Symbol"])
 	title_strings.append(i["Symbol"])
@@ -158,4 +164,4 @@ plt.xlabel("Trading Date")
 plt.ylabel("Percent Change")
 plt.legend()
 ## Display
-plt.show()
+plt.show()"""
