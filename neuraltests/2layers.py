@@ -68,17 +68,17 @@ def getDataSet(conn, cursor):
     training_set_inputs = []
     training_set_outputs = []
     for i in range (60):
-        cursor.execute("select open, close, high, low, volume, percent_change from endofday, summaryinfo where endofday.date < DATE_SUB(now(), interval %d day) AND endofday.date = summaryinfo.date order by date desc limit 4" % i)
-        rows = numpy.fromiter(cursor.fetchall())
+        sql = "select open, close, high, low, volume, percent_change from endofday, summaryinfo where endofday.date < DATE_SUB(now(), interval %d day) AND endofday.date = summaryinfo.date order by endofday.date desc limit 4" % i
+	print sql
+	cursor.execute(sql)
+        rows = numpy.fromiter(cursor.fetchall(), dtype=numpy.float)
         training_set_inputs.append(rows[0:2])
         training_set_outputs.append(rows[3]['percent_change'])
     return training_set_inputs, training_set_outputs.T
 
 
 connection = MySQLdb.connect('127.0.0.1', 'admin', 'ScrabbleSquad9', 'StockPredix')
-cursor = self.connection.cursor()
-
-cursor.execute("select open, close, high, low, volume from ")
+cursor = connection.cursor()
 
 if __name__ == "__main__":
 
@@ -100,7 +100,7 @@ if __name__ == "__main__":
     # The training set. We have 7 examples, each consisting of 3 input values
     # and 1 output value.
     training_set_inputs, training_set_outputs = getDataSet(connection, cursor)
-    print training_set_inputs
+    #print training_set_inputs
     print training_set_outputs
 
     # Train the neural network using the training set.
