@@ -90,6 +90,11 @@ endMonth = int(endDate[0])
 endDay = int(endDate[1])
 endYear = int(endDate[2])
 
+stockPredix = MySQLdb.connect("127.0.0.1", "admin", "ScrabbleSquad9", "StockPredix")
+cursor = stockPredix.cursor()
+cursor.execute("delete from endofday")
+cursor.execute("delete from summaryinfo")
+
 # get the values and store them 10 times, over 17 day spans
 for jvar in range (0, 10) :
 	print("Run %d." % (jvar + 1))
@@ -139,11 +144,6 @@ for jvar in range (0, 10) :
 	if data[0]["Outcome"] == 'RequestError' and "Prices" not in data[0]:
 		print("Web Request Error :(  Make sure that you arent pulling more that one month of data. ")
 		print(the_page)
-
-	stockPredix = MySQLdb.connect("127.0.0.1", "admin", "ScrabbleSquad9", "StockPredix")
-	cursor = stockPredix.cursor()
-	cursor.execute("delete from endofday")
-	cursor.execute("delete from summaryinfo")
 
 	for i in data:
 		closing_prices.append({'Symbol':i['Symbol'],'Dates':[],'Prices':[], 'PercentChange':[]})
