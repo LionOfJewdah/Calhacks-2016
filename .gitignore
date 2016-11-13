@@ -82,6 +82,9 @@ celerybeat-schedule
 venv/
 ENV/
 
+GoDaddy\ Reciepts/
+KerasWorkshop/
+
 # Spyder project settings
 .spyderproject
 
