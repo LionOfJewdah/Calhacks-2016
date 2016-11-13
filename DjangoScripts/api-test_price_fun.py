@@ -155,9 +155,11 @@ for jvar in range (0, 10) :
 			month = priceDate[0]
 			day = priceDate[1]
 			year = priceDate[2]
-
-			cursor.execute("insert into endofday (date, close, open, high, low, lastsale, volume) values (\'%s-%s-%s 00:00:00\', %s, %s, %s, %s, %s, %s)" 
+			try:
+				cursor.execute("insert into endofday (date, close, open, high, low, lastsale, volume) values (\'%s-%s-%s 00:00:00\', %s, %s, %s, %s, %s, %s)" 
 										% (year, month, day, price['Close'], price['Open'], price['High'], price['Low'], price['LastSale'], price['Volume']))
+			except(Exception) as e:
+				print("Error %d with executing SQL: %s" % (e.args[0], e.args[1]))
 			try:
 				closing_prices[-1]['Dates'].append(price['Date'])
 				closing_prices[-1]['Prices'].append(float(price['Close']))
@@ -173,14 +175,16 @@ for jvar in range (0, 10) :
 	# Examine new dictionary
 	closing_price = closing_prices[0]
 	for i in range(0, len(closing_price['Dates'])):
-		print closing_price['Dates'][i]
 		priceDate = closing_price['Dates'][i].split('/')
 		month = priceDate[0]
 		day = priceDate[1]
 		year = priceDate[2]
-		print closing_price['Prices'][i]
-		print closing_price['PercentChange'][i]
-		cursor.execute("insert into summaryinfo (date, percent_change, prices, symbol) values (\'%s-%s-%s 00:00:00\', %s, %s, \'%s\')" % 
-			(year, month, day, closing_price['PercentChange'][i], closing_price['Prices'][i], closing_price['Symbol']))
-urllib2.urlclose()
+		try:
+			cursor.execute("insert into summaryinfo (date, percent_change, prices, symbol) values (\'%s-%s-%s 00:00:00\', %s, %s, \'%s\')" % 
+				(year, month, day, closing_price['PercentChange'][i], closing_price['Prices'][i], closing_price['Symbol']))
+		except(Exception) as e:
+				print("Error %d with executing SQL: %s" % (e.args[0], e.args[1]))
+	stockPredix.commit()
+stockPredix.close()
+response.close()
 
