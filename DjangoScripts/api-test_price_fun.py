@@ -96,7 +96,7 @@ cursor.execute("delete from endofday")
 cursor.execute("delete from summaryinfo")
 
 # get the values and store them 10 times, over 17 day spans
-for jvar in range (0, 10) :
+for jvar in range (0, 15) :
 	print("Run %d." % (jvar + 1))
 	
 	d1 = dt.date(startYear, startMonth, startDay) + dt.timedelta(18 * jvar)
@@ -168,9 +168,8 @@ for jvar in range (0, 10) :
 				closing_prices[-1]['Prices'].append(float(price['Close']))
 
 				## Normalize prices to show percent change from start of time range
-				closing_prices[-1]['PercentChange'].append(100*(closing_prices[-1]['Prices'][-1]-
-					closing_prices[-1]['Prices'][0])/
-					closing_prices[-1]['Prices'][0])
+				closing_prices[-1]['PercentChange'].append(100*(float(price['Close'])-
+					float(price['Open']))/float(price['Open']))
 
 			except(Exception) as e:
 				print("Skipping non-trading date.")
