@@ -13,7 +13,7 @@ $param = array(
 
 // add authentication info
 $xignite_header = new SoapHeader('http://www.xignite.com/services/',
-     "Header", array("Username" => "YOUR_TOKEN"));
+     "Header", array("Token_" => "25D26255F6924F31BD86503A4253BEA0"));
 $client->__setSoapHeaders(array($xignite_header));
 
 // call the service, passing the parameters and the name of the operation
