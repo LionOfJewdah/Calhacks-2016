@@ -64,6 +64,10 @@ class NeuralNetwork():
         print self.layer2.synaptic_weights
 
 
+connection = MySQLdb.connect('127.0.0.1', 'admin', 'ScrabbleSquad9', 'StockPredix')
+cursor = connection.cursor()
+
+
 def getDataSet(conn, cursor):
     training_set_inputs = []
     training_set_outputs = []
@@ -76,9 +80,6 @@ def getDataSet(conn, cursor):
         training_set_outputs.append(rows[3]['percent_change'])
     return training_set_inputs, training_set_outputs.T
 
-
-connection = MySQLdb.connect('127.0.0.1', 'admin', 'ScrabbleSquad9', 'StockPredix')
-cursor = connection.cursor()
 
 if __name__ == "__main__":
 
