@@ -71,7 +71,7 @@ def getDataSet(conn, cursor):
         sql = "select open, close, high, low, volume, percent_change from endofday, summaryinfo where endofday.date < DATE_SUB(now(), interval %d day) AND endofday.date = summaryinfo.date order by endofday.date desc limit 4" % i
 	print sql
 	cursor.execute(sql)
-        rows = numpy.fromiter(cursor.fetchall(), dtype=numpy.float)
+        rows = numpy.fromiter(cursor.fetchall(), dtype=object)
         training_set_inputs.append(rows[0:2])
         training_set_outputs.append(rows[3]['percent_change'])
     return training_set_inputs, training_set_outputs.T
