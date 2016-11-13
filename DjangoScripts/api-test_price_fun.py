@@ -156,8 +156,7 @@ for jvar in range (0, 10) :
 			day = priceDate[1]
 			year = priceDate[2]
 			try:
-				endOfDaySql = "insert into endofday (date, close, open, high, low, lastsale, volume) values (\'%s-%s-%s 00:00:00\', %s, %s, %s, %s, %s, %s)" %
-					(year, month, day, price['Close'], price['Open'], price['High'], price['Low'], price['LastSale'], price['Volume'])
+				endOfDaySql = "insert into endofday (date, close, open, high, low, lastsale, volume) values (\'%s-%s-%s 00:00:00\', %s, %s, %s, %s, %s, %s)" % (year, month, day, price['Close'], price['Open'], price['High'], price['Low'], price['LastSale'], price['Volume'])
 				print endOfDaySql
 				cursor.execute(endOfDaySql)
 			except(Exception) as e:
@@ -182,8 +181,7 @@ for jvar in range (0, 10) :
 		day = priceDate[1]
 		year = priceDate[2]
 		try:
-			summarySql = "insert into summaryinfo (date, percent_change, prices, symbol) values (\'%s-%s-%s 00:00:00\', %s, %s, \'%s\')" % 
-				(year, month, day, closing_price['PercentChange'][i], closing_price['Prices'][i], closing_price['Symbol'])
+			summarySql = "insert into summaryinfo (date, percent_change, prices, symbol) values (\'%s-%s-%s 00:00:00\', %s, %s, \'%s\')" % (year, month, day, closing_price['PercentChange'][i], closing_price['Prices'][i], closing_price['Symbol'])
 			print summarySql
 			cursor.execute(summaryinfo)
 		except(Exception) as e:
