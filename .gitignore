@@ -82,6 +82,10 @@ celerybeat-schedule
 venv/
 ENV/
 
+<<<<<<< HEAD
+=======
+#
+>>>>>>> eced77b0204795b7dbb8df3193fb79964a02cd69
 GoDaddy\ Reciepts/
 KerasWorkshop/
 
