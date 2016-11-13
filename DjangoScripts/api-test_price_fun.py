@@ -157,7 +157,7 @@ for jvar in range (0, 10) :
 			year = priceDate[2]
 			try:
 				endOfDaySql = "insert into endofday (date, close, open, high, low, lastsale, volume) values (\'%s-%s-%s 00:00:00\', %s, %s, %s, %s, %s, %s)" 
-										% (year, month, day, price['Close'], price['Open'], price['High'], price['Low'], price['LastSale'], price['Volume'])
+					% (year, month, day, price['Close'], price['Open'], price['High'], price['Low'], price['LastSale'], price['Volume'])
 				print endOfDaySql
 				cursor.execute(endOfDaySql)
 			except(Exception) as e:
