@@ -8,8 +8,6 @@ import re
 import sys
 import io
 from pprint import pprint
-import matplotlib.dates as mdates
-import matplotlib.pyplot as plt
 import datetime as dt
 import MySQLdb
 
