@@ -161,7 +161,7 @@ for jvar in range (0, 10) :
 				cursor.execute(endOfDaySql)
 
 			except(Exception) as e:
-				print("Error with executing SQL: %s" % e
+				print("Error with executing SQL: %s" % e)
 
 			try:
 				closing_prices[-1]['Dates'].append(price['Date'])
@@ -188,7 +188,7 @@ for jvar in range (0, 10) :
 			cursor.execute(summaryinfo)
 
 		except(Exception) as e:
-			print("Error with executing SQL: %s" % e
+			print("Error with executing SQL: %s" % e)
 
 	stockPredix.commit()
 stockPredix.close()
