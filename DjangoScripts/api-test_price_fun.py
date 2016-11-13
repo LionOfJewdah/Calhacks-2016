@@ -188,8 +188,8 @@ for jvar in range (0, 10) :
 			cursor.execute(summaryinfo)
 
 		except(Exception) as e:
-				print("Error %d with executing SQL: %s" % (e.args[0], e.args[1]))
-				
+			print("Error %d with executing SQL: %s" % (e.args[0], e.args[1]))
+
 	stockPredix.commit()
 stockPredix.close()
 response.close()
